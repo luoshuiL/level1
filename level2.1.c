@@ -2,7 +2,7 @@
 
 int main() {
 	int jishu(int pass, int passN, int passG, int passP);
-	int pass, unitprice, number;//buy为购买通道，sc为投币数目,n为购买数目,m，i，signal为判断
+	int pass, unitprice, number;
 	char goods;
 	int passN[6] = { 0 };
 	int passP[6] = { 0 };
@@ -10,11 +10,11 @@ int main() {
 	printf("请装填货物，按照名称 通道 单价 数量顺序填写\n");
 	int j = 0;
 	do {
-		scanf_s("%c", &goods,1);//货物名称
-		scanf_s("%d", &pass);
-		scanf_s("%d", &unitprice);
-		scanf_s("%d", &number);
-		if (pass > 5 || pass < 1) {
+		scanf_s("%c", &goods,1);//货物名称     //第一步：装入货物
+		scanf_s("%d", &pass);//通道
+		scanf_s("%d", &unitprice);//单价
+		scanf_s("%d", &number);//数目
+		if (pass > 5 || pass < 1) {        // 判断是否合理
 			printf("不存在此通道\n");
 		}
 		else if (goods > 90 || goods < 65) {
@@ -23,30 +23,30 @@ int main() {
 		else if (unitprice > 9 || unitprice < 1) {
 			printf("定价不合理\n");
 		}
-		else if(passN[pass]==0){
+		else if(passN[pass]==0){       //装入货物
 			passN[pass] = number; 
 			passP[pass] = unitprice;
 			passG[pass] = goods;
 			j++;
 		}
-		else if (passN[pass] != 0) {
+		else if (passN[pass] != 0) {    //重复安装
 			printf("当前通道已有货物请重新放置\n");
 		}
 		scanf_s("%*c");
 	}//通道 单价 数量
 	while(pass > 5 || pass < 1 || unitprice > 9 || unitprice < 1 || goods > 90 || goods < 65||j<5);
-	while(j==5){
-	int unitsum = 0;
-	int p = 0;
-	int sum = 0;
+	while(j==5){     //不知道怎样写循环条件，只能凑一下了
+	int unitsum = 0;   //单此操作所需金额
+	int p = 0;  //判断是否结束
+	int sum = 0;//总金额
 	do {
-		printf("请输入购买通道:");
+		printf("请输入购买通道:");//第二步：购买
 		scanf_s("%d", &pass);
 		switch (pass) {
 		case 1:
 			unitprice = 0;
 			unitsum += jishu(pass, passN[pass], passG[pass], passP[pass]);
-			passN[pass] -= unitsum / passP[pass];
+			passN[pass] -= unitsum / passP[pass];   //商品件数
 			sum += unitsum;
 			printf("当前共需要%d元，输入0结束购买\n", sum);
 			break;
@@ -78,7 +78,7 @@ int main() {
 			sum += unitsum;
 			printf("当前共需要%d元，输入0结束购买\n", sum);
 			break;
-		case 0:
+		case 0:              //结束
 			p = 1;
 			break;
 		default:
@@ -103,7 +103,7 @@ int main() {
 				break;
 			};
 			if (sc > sum) {
-				printf(" 购物结束,找零%d\n", sc - sum);
+				printf(" 购物结束,找零%d\n", sc - sum);  //找零
 				break;
 			};
 		};
@@ -119,7 +119,7 @@ int main() {
 	printf("祝您购物愉快");
 	return 0;
 	}
-static int jishu(int pass, int passN, int passG, int passP) {
+static int jishu(int pass, int passN, int passG, int passP) {   //单个商品购买步骤
 	int n;
 	int sum = 0;
 	printf("通道%d:", pass);
@@ -127,8 +127,8 @@ static int jishu(int pass, int passN, int passG, int passP) {
 		printf("%c", passG);
 	};
 	printf("此商品单价为%d\n",passP);
-	while (passN > 0) {                      //进入购买页面
-		printf("需要购买的数量\n");       //第二步：购买数量
+	while (passN > 0) {                     
+		printf("需要购买的数量\n");       
 		scanf_s("%d", &n);
 		if (n <= passN) {
 			passN -= n;
